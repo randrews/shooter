@@ -1,46 +1,71 @@
-
 function love.draw()
-   local sc_x = objects.ball.body:getX() - 500
-   local sc_y = objects.ball.body:getY() - 350
+   draw_main(objects.ball.body)
+   draw_minimap(0,0)
+end
+
+function draw_main(player)
 
    love.graphics.push()
-   love.graphics.translate(-sc_x, -sc_y)
-
-   love.graphics.translate(objects.ball.body:getX(), objects.ball.body:getY())
-   love.graphics.rotate(-objects.ball.body:getAngle() - math.pi/2)
-   love.graphics.translate(-objects.ball.body:getX(), -objects.ball.body:getY())
+   transform_coords(player)
 
    love.graphics.drawq(Images.dirt, ground, 0, 0)
- 
-   love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
+
+   --draw_walls()
+   draw_obstacles()
+   draw_bullets()
+   draw_player(player)
+
+   love.graphics.pop()
+end
+
+function transform_coords(player)
+   local x = player:getX()
+   local y = player:getY()
+   local a = player:getAngle()
+
+   love.graphics.translate(-(x - Constants.screen_w/2),
+                        -(y - Constants.screen_h/2))
+   love.graphics.translate(x, y)
+   love.graphics.rotate(-a - math.pi/2)
+   love.graphics.translate(-x, -y)
+end
+
+function draw_walls()
+   love.graphics.setColor(72, 160, 14)
    for _, wall in pairs(walls) do
       love.graphics.polygon("fill", wall.shape:getPoints())
    end
+end
 
-   love.graphics.setColor(100, 100, 100) -- set the drawing color to green for the ground
+function draw_bullets()
+   love.graphics.setColor(220, 220, 90)
+   for _, bullet in ipairs(objects.bullets) do
+      love.graphics.circle("fill",
+                           bullet.body:getX(), bullet.body:getY(),
+                           bullet.shape:getRadius(), 10)
+   end
+end
+
+function draw_player(player)
+   local x = player:getX()
+   local y = player:getY()
+   local a = player:getAngle()
+
+   love.graphics.setColor(220, 90, 90)
+   love.graphics.circle("fill", x, y, Constants.radius, 20)
+
+   love.graphics.setColor(220, 220, 90)
+   love.graphics.line(x,y,x + 50 * math.cos(a),y + 50 * math.sin(a))
+end
+
+function draw_obstacles()
+   love.graphics.setColor(100, 100, 100)
    for k = 1, 10 do
       love.graphics.circle("fill",
                            objects[k].body:getX(),
                            objects[k].body:getY(),
                            objects[k].shape:getRadius(), 100)
    end
-
-   love.graphics.setColor(220, 90, 90) --set the drawing color to red for the ball
-   love.graphics.circle("fill", objects.ball.body:getX(), objects.ball.body:getY(), objects.ball.shape:getRadius(), 20) -- we want 20 line segments to form the "circle"
-
-   love.graphics.setColor(220, 220, 90)
-   love.graphics.line(objects.ball.body:getX(),
-                      objects.ball.body:getY(),
-                      objects.ball.body:getX() + 50 * math.cos(objects.ball.body:getAngle()),
-                      objects.ball.body:getY() + 50 * math.sin(objects.ball.body:getAngle()))
-
-   love.graphics.setColor(220, 220, 90) --set the drawing color yellow for the bullets
-   for _, bullet in ipairs(objects.bullets) do
-      love.graphics.circle("fill", bullet.body:getX(), bullet.body:getY(), bullet.shape:getRadius(), 10) -- we want 20 line segments to form the "circle"
-   end
-
-   love.graphics.pop()
-   draw_minimap(0,0)
 end
 
 function draw_minimap(x,y)

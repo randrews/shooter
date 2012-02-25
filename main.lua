@@ -18,6 +18,10 @@ Images.dirt:setWrap('repeat', 'repeat')
 ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)
 
 Constants = {
+   -- Screen stuff
+   screen_w = 1000,
+   screen_h = 700,
+
    -- Bullet stuff
    bullet_delay = 0.05,
    bullet_radius = 5,
