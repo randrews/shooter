@@ -9,6 +9,8 @@ function love.draw()
    love.graphics.translate(objects.ball.body:getX(), objects.ball.body:getY())
    love.graphics.rotate(-objects.ball.body:getAngle() - math.pi/2)
    love.graphics.translate(-objects.ball.body:getX(), -objects.ball.body:getY())
+
+   love.graphics.drawq(Images.dirt, ground, 0, 0)
  
    love.graphics.setColor(72, 160, 14) -- set the drawing color to green for the ground
    for _, wall in pairs(walls) do

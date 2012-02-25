@@ -10,6 +10,13 @@ Categories = {
    bullet = 4
 }
 
+Images = {
+   dirt = love.graphics.newImage('dirt.png')
+}
+
+Images.dirt:setWrap('repeat', 'repeat')
+ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)
+
 Constants = {
    -- Bullet stuff
    bullet_delay = 0.05,
@@ -30,5 +37,6 @@ Constants = {
 }
 
 GameState = {
+   paused = false,
    bullet_timer = 0 -- Number of secs until gun can shoot again
 }
