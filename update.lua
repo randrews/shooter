@@ -2,12 +2,55 @@ function love.update(dt)
    if not GameState.paused then world:update(dt) end
    if love.keyboard.isDown('1') then GameState.paused = not GameState.paused end
 
-   local keys = read_keys(love.keyboard)
+   local keys = input.read_keys(love.keyboard)
    local ball = objects.ball.body
 
+   if keys.click then print('click') end
+   if keys.hold then print('hold') end
+   if keys.save then print('save') end
+
    maneuver_player(ball, keys)
-   handle_shooting(ball, keys, dt, GameState)
-   objects.bullets = bullet_impacts(objects.bullets)
+   GameState.current_wall = find_wall(keys.mouse_x, keys.mouse_y)
+end
+
+-- Finds and returns the (an) obstacle that x,y is within
+function find_wall(mx,my)
+   local x, y = screen_to_world(mx,my)
+
+   local function within(x,y,w)
+      local wx, wy = w.body:getX(), w.body:getY()
+      local dx, dy = wx-x, wy-y
+      return dx*dx+dy*dy < w.shape:getRadius()*w.shape:getRadius()
+   end
+
+   for _, wall in ipairs(objects.walls) do
+      if within(x,y,wall) then return wall end
+   end
+
+   return nil
+end
+
+-- Returns the world coords for a given screen point
+function screen_to_world(x,y)
+   -- Where the mouse is on the screen, relative to the player
+   local cursor_x, cursor_y = x-Constants.screen_w/2, y-Constants.screen_h/2
+   -- Where the player is in the world
+   local player_x, player_y = objects.ball.body:getX(), objects.ball.body:getY()
+   local player_a = objects.ball.body:getAngle()
+
+   -- Angle from the player to the mouse, from player's POV
+   local cursor_angle = math.atan(cursor_y/cursor_x) + math.pi/2
+   if cursor_x < 0 then cursor_angle = cursor_angle + math.pi end
+
+   -- Distance from the player to the mouse
+   local cursor_d = math.sqrt(cursor_x * cursor_x +
+                              cursor_y * cursor_y)
+
+   -- Angle in world-frame-of-reference from player to mouse
+   local world_a = cursor_angle + player_a
+
+   -- Add vectors. Easy.
+   return cursor_d * math.cos(world_a) + player_x, cursor_d * math.sin(world_a) + player_y
 end
 
 function bullet_impacts(bullets)

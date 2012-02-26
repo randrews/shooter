@@ -13,7 +13,7 @@ function love.load()
 
 
   objects = {} -- table to hold all our physical objects
-  walls = make_walls(5000,5000)
+  edges = make_edges(5000,5000)
   
   --let's create a ball
   objects.ball = {}
@@ -28,8 +28,9 @@ function love.load()
   objects.bullets = {}
   bullet_delay = 0
 
+  objects.walls = {}
   for k = 1, 10 do
-     objects[k] = make_obstacle()
+     objects.walls[k] = make_obstacle()
   end
 
   --initial graphics setup
@@ -37,7 +38,7 @@ function love.load()
   love.graphics.setMode(1000,700, false, true, 0)
 end
 
-function make_walls(width, height)
+function make_edges(width, height)
    local walls = {}
 
    walls.south = {}

@@ -42,5 +42,6 @@ Constants = {
 
 GameState = {
    paused = false,
-   bullet_timer = 0 -- Number of secs until gun can shoot again
+   bullet_timer = 0, -- Number of secs until gun can shoot again
+   current_wall = nil -- Currently-highlighted wall
 }
