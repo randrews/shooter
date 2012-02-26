@@ -33,7 +33,7 @@ function love.load()
   end
 
   --initial graphics setup
-  love.graphics.setBackgroundColor(104, 136, 248)
+  love.graphics.setBackgroundColor(0,0,0)
   love.graphics.setMode(1000,700, false, true, 0)
 end
 
