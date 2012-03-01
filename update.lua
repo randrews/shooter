@@ -6,8 +6,22 @@ function love.update(dt)
    local ball = objects.ball.body
 
    if keys.click then
-      GameState.tool_selected =
-         input.in_rad(keys.mouse_x, keys.mouse_y, 50, 650, 32)
+      local tool_hit = false
+      for _,t in pairs(Tools) do
+         if t:hit(keys.mouse_x, keys.mouse_y) then
+            t:click()
+            tool_hit = true
+         end
+      end
+
+      if not tool_hit then
+         local active_tool = nil
+         for _, t in pairs(Tools) do if t.selected then active_tool = t end end
+         if active_tool then
+            local sx, sy = screen_to_world(keys.mouse_x, keys.mouse_y)
+            active_tool:use(sx, sy)
+         end
+      end
    end
 
    maneuver_player(ball, keys)
