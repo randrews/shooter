@@ -5,9 +5,10 @@ function love.update(dt)
    local keys = input.read_keys(love.keyboard)
    local ball = objects.ball.body
 
-   if keys.click then print('click') end
-   if keys.hold then print('hold') end
-   if keys.save then print('save') end
+   if keys.click then
+      GameState.tool_selected =
+         input.in_rad(keys.mouse_x, keys.mouse_y, 50, 650, 32)
+   end
 
    maneuver_player(ball, keys)
    handle_shooting(ball, keys, dt, GameState)

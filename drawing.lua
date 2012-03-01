@@ -8,6 +8,7 @@ function draw_main(player)
    love.graphics.push()
    transform_coords(player)
 
+   love.graphics.setColor(255,255,255)
    love.graphics.drawq(Images.dirt, ground, 0, 0)
 
    --draw_edges()
@@ -19,13 +20,7 @@ function draw_main(player)
 end
 
 function draw_hud()
-   love.graphics.setColor(90, 90, 90)
-   love.graphics.rectangle('fill', 50, 650-64, 64, 64)
-
-   love.graphics.drawq(Images.icons, Icons.new, 50, 650-64)
-
-   love.graphics.setColor(120, 120, 120)
-   love.graphics.rectangle('line', 50, 650-64, 64, 64)
+   Tools.new:draw()
 end
 
 function transform_coords(player)

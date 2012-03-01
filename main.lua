@@ -2,6 +2,7 @@ require 'setup'
 require 'update'
 require 'drawing'
 require 'input'
+require 'tool'
 
 Categories = {
    edge = 1,
@@ -19,6 +20,10 @@ Images = {
 Icons = {
    new = love.graphics.newQuad(0,0, 64,64, 256,256),
    move = love.graphics.newQuad(64,0, 64,64, 256,256)
+}
+
+Tools = {
+   new = tool.new{icon=Icons.new}
 }
 
 Images.dirt:setWrap('repeat', 'repeat')

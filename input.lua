@@ -46,3 +46,8 @@ function single_press(down, state_key)
       return false
    end
 end
+
+function in_rad(x,y, cx, cy, rad)
+   local dx, dy = x-cx, y-cy
+   return (dx*dx+dy*dy) <= rad*rad
+end
