@@ -35,7 +35,7 @@ function love.load()
 
   --initial graphics setup
   love.graphics.setBackgroundColor(0,0,0)
-  love.graphics.setMode(1000,700, false, true, 0)
+  love.graphics.setMode(Constants.screen_w, Constants.screen_h, false, true, 0)
 end
 
 function make_edges(width, height)

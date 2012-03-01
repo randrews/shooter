@@ -1,10 +1,10 @@
 function love.draw()
    draw_main(objects.ball.body)
    draw_minimap(0,0)
+   draw_hud()
 end
 
 function draw_main(player)
-
    love.graphics.push()
    transform_coords(player)
 
@@ -18,13 +18,23 @@ function draw_main(player)
    love.graphics.pop()
 end
 
+function draw_hud()
+   love.graphics.setColor(90, 90, 90)
+   love.graphics.rectangle('fill', 50, 650-64, 64, 64)
+
+   love.graphics.drawq(Images.icons, Icons.new, 50, 650-64)
+
+   love.graphics.setColor(120, 120, 120)
+   love.graphics.rectangle('line', 50, 650-64, 64, 64)
+end
+
 function transform_coords(player)
    local x = player:getX()
    local y = player:getY()
    local a = player:getAngle()
 
-   love.graphics.translate(-(x - Constants.screen_w/2),
-                        -(y - Constants.screen_h/2))
+   love.graphics.translate(-(x - Constants.player_x),
+                        -(y - Constants.player_y))
    love.graphics.translate(x, y)
    love.graphics.rotate(-a - math.pi/2)
    love.graphics.translate(-x, -y)
@@ -61,10 +71,16 @@ end
 function draw_walls()
    love.graphics.setColor(100, 100, 100)
    for _, wall in ipairs(objects.walls) do
-      love.graphics.circle("fill",
-                           wall.body:getX(),
-                           wall.body:getY(),
-                           wall.shape:getRadius(), 100)
+      -- love.graphics.circle("fill",
+      --                      wall.body:getX(),
+      --                      wall.body:getY(),
+      --                      wall.shape:getRadius(), 100)
+      love.graphics.drawq(Images.rock, rock,
+                          wall.body:getX()-wall.shape:getRadius(),
+                          wall.body:getY()-wall.shape:getRadius(),
+                          0,
+                          wall.shape:getRadius()/59,
+                          wall.shape:getRadius()/59)
    end
 
    if GameState.current_wall then

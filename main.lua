@@ -11,16 +11,27 @@ Categories = {
 }
 
 Images = {
-   dirt = love.graphics.newImage('dirt.png')
+   dirt = love.graphics.newImage('dirt.png'),
+   rock = love.graphics.newImage('rock.png'),
+   icons = love.graphics.newImage('icons.png')
+}
+
+Icons = {
+   new = love.graphics.newQuad(0,0, 64,64, 256,256),
+   move = love.graphics.newQuad(64,0, 64,64, 256,256)
 }
 
 Images.dirt:setWrap('repeat', 'repeat')
 ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)
+rock = love.graphics.newQuad(0, 0, 118, 118, 118, 118)
+
 
 Constants = {
    -- Screen stuff
    screen_w = 1000,
    screen_h = 700,
+   player_x = 500, -- x coord of player on screen
+   player_y = 600, -- y coord of player on screen
 
    -- Bullet stuff
    bullet_delay = 0.05,

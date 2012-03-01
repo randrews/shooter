@@ -10,7 +10,9 @@ function love.update(dt)
    if keys.save then print('save') end
 
    maneuver_player(ball, keys)
+   handle_shooting(ball, keys, dt, GameState)
    GameState.current_wall = find_wall(keys.mouse_x, keys.mouse_y)
+   objects.bullets = bullet_impacts(objects.bullets)
 end
 
 -- Finds and returns the (an) obstacle that x,y is within
@@ -33,7 +35,7 @@ end
 -- Returns the world coords for a given screen point
 function screen_to_world(x,y)
    -- Where the mouse is on the screen, relative to the player
-   local cursor_x, cursor_y = x-Constants.screen_w/2, y-Constants.screen_h/2
+   local cursor_x, cursor_y = x-Constants.player_x, y-Constants.player_y
    -- Where the player is in the world
    local player_x, player_y = objects.ball.body:getX(), objects.ball.body:getY()
    local player_a = objects.ball.body:getAngle()
