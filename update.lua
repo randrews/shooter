@@ -4,29 +4,21 @@ function love.update(dt)
 
    local keys = input.read_keys(love.keyboard)
    local ball = objects.ball.body
+   GameState.current_wall = find_wall(keys.mouse_x, keys.mouse_y)
 
-   if keys.click then
-      local tool_hit = false
-      for _,t in pairs(Tools) do
-         if t:hit(keys.mouse_x, keys.mouse_y) then
-            t:click()
-            tool_hit = true
-         end
-      end
+   local hit_tool = tool.hit_tool(keys.mouse_x, keys.mouse_y)
+   if hit_tool and keys.click then hit_tool:click() end
 
-      if not tool_hit then
-         local active_tool = nil
-         for _, t in pairs(Tools) do if t.selected then active_tool = t end end
-         if active_tool then
-            local sx, sy = screen_to_world(keys.mouse_x, keys.mouse_y)
-            active_tool:use(sx, sy)
-         end
+   if (keys.click or keys.hold) and not hit_tool then
+      local active_tool = tool.active_tool()
+      if active_tool then
+         local sx, sy = screen_to_world(keys.mouse_x, keys.mouse_y)
+         active_tool:use(sx, sy, keys.click)
       end
    end
 
    maneuver_player(ball, keys)
    handle_shooting(ball, keys, dt, GameState)
-   GameState.current_wall = find_wall(keys.mouse_x, keys.mouse_y)
    objects.bullets = bullet_impacts(objects.bullets)
 end
 

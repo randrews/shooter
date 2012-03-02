@@ -11,7 +11,6 @@ function draw_main(player)
    love.graphics.setColor(255,255,255)
    love.graphics.drawq(Images.dirt, ground, 0, 0)
 
-   --draw_edges()
    draw_walls()
    draw_bullets()
    draw_player(player)
@@ -20,7 +19,7 @@ function draw_main(player)
 end
 
 function draw_hud()
-   Tools.new:draw()
+   for _,t in pairs(Tools) do t:draw() end
 end
 
 function transform_coords(player)

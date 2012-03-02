@@ -8,7 +8,7 @@ local instance = {class=tool,
                   radius = 32,
                   x=Constants.screen_w/2,
                   y=Constants.screen_h-35,
-                  use=function(self, world_x, world_y) end
+                  use=function(self, world_x, world_y, start) end
                }
 
 function new(tbl)
@@ -48,4 +48,25 @@ end
 
 function instance.click(self)
    self.selected = not self.selected
+   if Tools then
+      for _,t in pairs(Tools) do
+         if t ~= self then t.selected = false end
+      end
+   end
+end
+
+function active_tool()
+   if Tools then
+      for _,t in pairs(Tools) do
+         if t.selected then return t end
+      end
+   end
+end
+
+function hit_tool(x,y)
+   if Tools then
+      for _, t in pairs(Tools) do
+         if t:hit(x,y) then return t end
+      end
+   end
 end

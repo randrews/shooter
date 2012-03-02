@@ -25,7 +25,13 @@ Icons = {
 }
 
 Tools = {
-   new = tool.new{icon=Icons.new, use=editor.new_wall_tool}
+   new = tool.new{x=Constants.screen_w/2-34,
+                  icon=Icons.new,
+                  use=editor.new_wall_tool},
+
+   move = tool.new{x=Constants.screen_w/2+34,
+                   icon=Icons.move,
+                   use=editor.move_wall_tool},
 }
 
 Images.dirt:setWrap('repeat', 'repeat')
