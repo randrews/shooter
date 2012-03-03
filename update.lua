@@ -4,16 +4,16 @@ function love.update(dt)
 
    local keys = input.read_keys(love.keyboard)
    local ball = objects.ball.body
-   GameState.current_wall = find_wall(keys.mouse_x, keys.mouse_y)
+   GameState.current_wall = find_wall(keys.mouse.x, keys.mouse.y)
 
-   local hit_tool = tool.hit_tool(keys.mouse_x, keys.mouse_y)
-   if hit_tool and keys.click then hit_tool:click() end
+   local hit_tool = tool.hit_tool(keys.mouse.x, keys.mouse.y)
+   if hit_tool and keys.mouse.click then hit_tool:click() end
 
-   if (keys.click or keys.hold) and not hit_tool then
+   if keys.mouse.any and not hit_tool then
       local active_tool = tool.active_tool()
       if active_tool then
-         local sx, sy = screen_to_world(keys.mouse_x, keys.mouse_y)
-         active_tool:use(sx, sy, keys.click)
+         local sx, sy = screen_to_world(keys.mouse.x, keys.mouse.y)
+         active_tool:use(sx, sy, keys.mouse)
       end
    end
 

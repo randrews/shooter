@@ -23,12 +23,21 @@ function read_keys()
 
    keys.shoot = k(' ')
 
-   keys.mouse_x, keys.mouse_y = ms.getX(), ms.getY()
-   keys.click = single_press(ms.isDown('l'), 'mouse_down')
-   -- 'click' if it's a new click, 'hold' if the mouse is still down from before
-   keys.hold = input_state.mouse_down and not keys.click
+   keys.mouse = {
+      x = ms.getX(),
+      y = ms.getY(),
+      -- 'click' if it's a new click, 'hold' if the mouse is still down from before
+      click = single_press(ms.isDown('l'), 'mouse_down'),
+      wheel_up = ms.isDown('wu'), -- These two don't seem to work... :(
+      wheel_down = ms.isDown('wd')
+   }
 
-   keys.save = single_press(k('s'), 'save');
+   keys.mouse.hold = input_state.mouse_down and not keys.mouse.click
+   -- Any mouse input at all
+   keys.mouse.any = (keys.mouse.click or 
+                     keys.mouse.hold or
+                     keys.mouse.wheel_up or
+                     keys.mouse.wheel_down)
 
    return keys
 end

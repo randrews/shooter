@@ -38,7 +38,7 @@ Tools = {
                      use=editor.new_wall_tool},
 
    resize = tool.new{icon=Icons.resize,
-                     use=editor.new_wall_tool}
+                     use=editor.resize_wall_tool}
 }
 
 utils.center_tools(Tools.new, Tools.move, Tools.rotate, Tools.resize)
