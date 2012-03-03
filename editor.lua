@@ -46,4 +46,6 @@ function resize_wall_tool(self, x, y, mouse)
    s:destroy()
    GameState.current_wall.shape =
       love.physics.newCircleShape(GameState.current_wall.body, 0, 0, rad)
+
+   b:setAngle(utils.angle_to(b:getX(), b:getY(), x, y))
 end

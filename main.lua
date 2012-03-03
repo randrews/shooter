@@ -23,8 +23,8 @@ Images = {
 Icons = {
    new = love.graphics.newQuad(0,0, 64,64, 256,256),
    move = love.graphics.newQuad(64,0, 64,64, 256,256),
-   resize = love.graphics.newQuad(128,0, 64,64, 256,256),
-   rotate = love.graphics.newQuad(192,0, 64,64, 256,256)
+   resize = love.graphics.newQuad(192,0, 64,64, 256,256),
+   save = love.graphics.newQuad(192,0, 64,64, 256,256) -- Not done yet
 }
 
 Tools = {
@@ -34,14 +34,11 @@ Tools = {
    move = tool.new{icon=Icons.move,
                    use=editor.move_wall_tool},
 
-   rotate = tool.new{icon=Icons.rotate,
-                     use=editor.new_wall_tool},
-
    resize = tool.new{icon=Icons.resize,
                      use=editor.resize_wall_tool}
 }
 
-utils.center_tools(Tools.new, Tools.move, Tools.rotate, Tools.resize)
+utils.center_tools(Tools.new, Tools.move, Tools.resize)
 
 Images.dirt:setWrap('repeat', 'repeat')
 ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)

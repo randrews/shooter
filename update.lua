@@ -1,3 +1,7 @@
+require 'utils'
+
+module('update', package.seeall)
+
 function love.update(dt)
    if not GameState.paused then world:update(dt) end
    if love.keyboard.isDown('1') then GameState.paused = not GameState.paused end
@@ -12,7 +16,7 @@ function love.update(dt)
    if keys.mouse.any and not hit_tool then
       local active_tool = tool.active_tool()
       if active_tool then
-         local sx, sy = screen_to_world(keys.mouse.x, keys.mouse.y)
+         local sx, sy = utils.screen_to_world(keys.mouse.x, keys.mouse.y)
          active_tool:use(sx, sy, keys.mouse)
       end
    end
@@ -24,7 +28,7 @@ end
 
 -- Finds and returns the (an) obstacle that x,y is within
 function find_wall(mx,my)
-   local x, y = screen_to_world(mx,my)
+   local x, y = utils.screen_to_world(mx,my)
 
    local function within(x,y,w)
       local wx, wy = w.body:getX(), w.body:getY()
@@ -37,29 +41,6 @@ function find_wall(mx,my)
    end
 
    return nil
-end
-
--- Returns the world coords for a given screen point
-function screen_to_world(x,y)
-   -- Where the mouse is on the screen, relative to the player
-   local cursor_x, cursor_y = x-Constants.player_x, y-Constants.player_y
-   -- Where the player is in the world
-   local player_x, player_y = objects.ball.body:getX(), objects.ball.body:getY()
-   local player_a = objects.ball.body:getAngle()
-
-   -- Angle from the player to the mouse, from player's POV
-   local cursor_angle = math.atan(cursor_y/cursor_x) + math.pi/2
-   if cursor_x < 0 then cursor_angle = cursor_angle + math.pi end
-
-   -- Distance from the player to the mouse
-   local cursor_d = math.sqrt(cursor_x * cursor_x +
-                              cursor_y * cursor_y)
-
-   -- Angle in world-frame-of-reference from player to mouse
-   local world_a = cursor_angle + player_a
-
-   -- Add vectors. Easy.
-   return cursor_d * math.cos(world_a) + player_x, cursor_d * math.sin(world_a) + player_y
 end
 
 function bullet_impacts(bullets)

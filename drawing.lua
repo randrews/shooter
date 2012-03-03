@@ -63,18 +63,20 @@ function draw_player(player)
 end
 
 function draw_walls()
-   love.graphics.setColor(100, 100, 100)
+   love.graphics.setColor(255, 255, 255)
    for _, wall in ipairs(objects.walls) do
-      -- love.graphics.circle("fill",
-      --                      wall.body:getX(),
-      --                      wall.body:getY(),
-      --                      wall.shape:getRadius(), 100)
+      love.graphics.push()
+      love.graphics.translate(wall.body:getX(),wall.body:getY())
+      love.graphics.rotate(wall.body:getAngle())
+      
+      -- 
       love.graphics.drawq(Images.rock, rock,
-                          wall.body:getX()-wall.shape:getRadius(),
-                          wall.body:getY()-wall.shape:getRadius(),
+                          -wall.shape:getRadius(),
+                       -wall.shape:getRadius(),
                           0,
                           wall.shape:getRadius()/59,
                           wall.shape:getRadius()/59)
+      love.graphics.pop()
    end
 
    if GameState.current_wall then
