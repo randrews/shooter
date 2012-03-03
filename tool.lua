@@ -28,11 +28,6 @@ function instance.draw(self)
    lg.setColor(90, 90, 90)
    lg.circle('fill', self.x, self.y, self.radius, 20)
 
-   if self.icon then
-      lg.setColor(255,255,255)
-      lg.drawq(Images.icons, self.icon, self.x-32, self.y-32)
-   end
-
    if self.selected then
       lg.setColor(220, 220, 90)
    else
@@ -41,6 +36,11 @@ function instance.draw(self)
 
    lg.setLineWidth(3)
    lg.circle('line', self.x, self.y, self.radius, 20)
+
+   if self.icon then
+      lg.setColor(255,255,255)
+      lg.drawq(Images.icons, self.icon, self.x-32, self.y-32)
+   end
 
    lg.setColor(r,g,b,a)
    lg.setLineWidth(lw)

@@ -5,6 +5,7 @@ require 'drawing'
 require 'input'
 require 'tool'
 require 'editor'
+require 'utils'
 
 Categories = {
    edge = 1,
@@ -21,18 +22,26 @@ Images = {
 
 Icons = {
    new = love.graphics.newQuad(0,0, 64,64, 256,256),
-   move = love.graphics.newQuad(64,0, 64,64, 256,256)
+   move = love.graphics.newQuad(64,0, 64,64, 256,256),
+   resize = love.graphics.newQuad(128,0, 64,64, 256,256),
+   rotate = love.graphics.newQuad(192,0, 64,64, 256,256)
 }
 
 Tools = {
-   new = tool.new{x=Constants.screen_w/2-34,
-                  icon=Icons.new,
+   new = tool.new{icon=Icons.new,
                   use=editor.new_wall_tool},
 
-   move = tool.new{x=Constants.screen_w/2+34,
-                   icon=Icons.move,
+   move = tool.new{icon=Icons.move,
                    use=editor.move_wall_tool},
+
+   rotate = tool.new{icon=Icons.rotate,
+                     use=editor.new_wall_tool},
+
+   resize = tool.new{icon=Icons.resize,
+                     use=editor.new_wall_tool}
 }
+
+utils.center_tools(Tools.new, Tools.move, Tools.rotate, Tools.resize)
 
 Images.dirt:setWrap('repeat', 'repeat')
 ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)
