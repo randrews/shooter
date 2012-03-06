@@ -1,3 +1,5 @@
+require 'json'
+
 collisions = {
    add = function(a,b,coll)
             if a then a.delete_me = true end
@@ -11,26 +13,34 @@ function love.load()
   world:setMeter(64) --the height of a meter in this world will be 64px
   world:setCallbacks(collisions.add, nil, nil, nil)
 
+  --local level_str = 
+  local level = json.decode((love.filesystem.read('level.json')))
 
   objects = {} -- table to hold all our physical objects
   edges = make_edges(5000,5000)
   
   --let's create a ball
   objects.ball = {}
-  objects.ball.body = love.physics.newBody(world, 400, 300,
+  objects.ball.body = love.physics.newBody(world, level.player_x, level.player_y,
                                            Constants.mass,
                                            Constants.turn_inertia)
   objects.ball.body:setAngularDamping(Constants.turn_deceleration)
   objects.ball.shape = love.physics.newCircleShape(objects.ball.body, 0, 0, 20)
   objects.ball.shape:setCategory(Categories.player)
   objects.ball.shape:setMask(Categories.bullet)
+  objects.ball.body:setAngle(level.player_a)
 
   objects.bullets = {}
   bullet_delay = 0
 
   objects.walls = {}
-  for k = 1, 10 do
-     objects.walls[k] = make_obstacle()
+  for _, w in ipairs(level.walls) do
+     local x, y, a, r = unpack(w)
+     local o = {}
+     o.body = love.physics.newBody(world, x, y, 0, 0)
+     o.shape = love.physics.newCircleShape(o.body, 0, 0, r)
+     o.body:setAngle(a)
+     table.insert(objects.walls, o)
   end
 
   --initial graphics setup
