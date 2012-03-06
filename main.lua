@@ -24,7 +24,7 @@ Icons = {
    new = love.graphics.newQuad(0,0, 64,64, 256,256),
    move = love.graphics.newQuad(64,0, 64,64, 256,256),
    resize = love.graphics.newQuad(192,0, 64,64, 256,256),
-   save = love.graphics.newQuad(192,0, 64,64, 256,256) -- Not done yet
+   save = love.graphics.newQuad(128,64, 64,64, 256,256) -- Not done yet
 }
 
 Tools = {
@@ -35,10 +35,13 @@ Tools = {
                    use=editor.move_wall_tool},
 
    resize = tool.new{icon=Icons.resize,
-                     use=editor.resize_wall_tool}
+                     use=editor.resize_wall_tool},
+
+   save = tool.new{icon=Icons.save,
+                   select=editor.save_map_tool}
 }
 
-utils.center_tools(Tools.new, Tools.move, Tools.resize)
+utils.center_tools(Tools.new, Tools.move, Tools.resize, Tools.save)
 
 Images.dirt:setWrap('repeat', 'repeat')
 ground = love.graphics.newQuad(0, 0, 5000, 5000, 200, 200)
@@ -49,3 +52,5 @@ GameState = {
    bullet_timer = 0, -- Number of secs until gun can shoot again
    current_wall = nil -- Currently-highlighted wall
 }
+
+love.filesystem.setIdentity('shooter')

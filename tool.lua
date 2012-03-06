@@ -8,7 +8,8 @@ local instance = {class=tool,
                   radius = 32,
                   x=Constants.screen_w/2,
                   y=Constants.screen_h-35,
-                  use=function(self, world_x, world_y, start) end
+                  use=function(self, world_x, world_y, start) end,
+                  select=function(self) return true end
                }
 
 function new(tbl)
@@ -47,6 +48,8 @@ function instance.draw(self)
 end
 
 function instance.click(self)
+   if not self:select() then return end
+
    self.selected = not self.selected
    if Tools then
       for _,t in pairs(Tools) do

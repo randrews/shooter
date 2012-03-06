@@ -1,4 +1,5 @@
 require 'utils'
+require 'json'
 
 module('editor', package.seeall)
 
@@ -48,4 +49,24 @@ function resize_wall_tool(self, x, y, mouse)
       love.physics.newCircleShape(GameState.current_wall.body, 0, 0, rad)
 
    b:setAngle(utils.angle_to(b:getX(), b:getY(), x, y))
+end
+
+function save_map_tool(self)
+   local player = objects.ball.body
+   local level = {player_x = player:getX(),
+                  player_y = player:getY(),
+                  player_a = player:getAngle(),
+                  walls = {}}
+
+   for _, wall in ipairs(objects.walls) do
+      local b, s = wall.body, wall.shape
+      table.insert(level.walls,
+                   {b:getX(), b:getY(),
+                    b:getAngle(), s:getRadius()})
+   end
+
+   love.filesystem.write('level.json', json.encode(level))
+   print('Wrote level.json')
+
+   return false -- Don't let them select me
 end
