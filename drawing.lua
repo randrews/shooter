@@ -14,6 +14,7 @@ function draw_main(player)
    draw_walls()
    draw_bullets()
    draw_player(player)
+   for _,m in ipairs(objects.mobs) do m:draw() end
 
    love.graphics.pop()
 end
@@ -108,6 +109,14 @@ function draw_minimap(x,y)
                            wall.body:getX() / 25,
                            wall.body:getY() / 25,
                            wall.shape:getRadius() / 25, 10)
+   end      
+
+   love.graphics.setColor(220, 50, 50)
+   for _, m in ipairs(objects.mobs) do
+      love.graphics.circle('fill',
+                           m.body:getX() / 25,
+                           m.body:getY() / 25,
+                           m.shape:getRadius() / 10, 8)
    end      
 
    love.graphics.setColor(220, 220, 90)

@@ -5,6 +5,8 @@ screen_w = 1000
 screen_h = 700
 player_x = 500 -- x coord of player on screen
 player_y = 600 -- y coord of player on screen
+world_h = 5000
+world_w = 5000
 
 -- Bullet stuff
 bullet_delay = 0.05

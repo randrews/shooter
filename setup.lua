@@ -1,4 +1,6 @@
+require 'Constants'
 require 'json'
+require 'mob'
 
 collisions = {
    add = function(a,b,coll)
@@ -8,7 +10,7 @@ collisions = {
 }
 
 function love.load()
-  world = love.physics.newWorld(0, 0, 5000, 5000) --create a world for the bodies to exist in with width and height of 650
+  world = love.physics.newWorld(0, 0, Constants.world_w, Constants.world_h) --create a world for the bodies to exist in with width and height of 650
   world:setGravity(0, 0) --the x component of the gravity will be 0, and the y component of the gravity will be 700
   world:setMeter(64) --the height of a meter in this world will be 64px
   world:setCallbacks(collisions.add, nil, nil, nil)
@@ -42,6 +44,9 @@ function love.load()
      o.body:setAngle(a)
      table.insert(objects.walls, o)
   end
+
+  objects.mobs = {}
+  table.insert(objects.mobs, mob.new{world=world})
 
   --initial graphics setup
   love.graphics.setBackgroundColor(0,0,0)
