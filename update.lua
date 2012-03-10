@@ -24,6 +24,7 @@ function love.update(dt)
    maneuver_player(ball, keys)
    handle_shooting(ball, keys, dt, GameState)
    objects.bullets = bullet_impacts(objects.bullets)
+   for _,m in ipairs(objects.mobs) do m:act(objects.ball) end
 end
 
 -- Finds and returns the (an) obstacle that x,y is within

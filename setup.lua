@@ -46,7 +46,7 @@ function love.load()
   end
 
   objects.mobs = {}
-  table.insert(objects.mobs, mob.new{world=world})
+  table.insert(objects.mobs, mob.new{world=world, act=mob.seek_player})
 
   --initial graphics setup
   love.graphics.setBackgroundColor(0,0,0)
