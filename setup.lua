@@ -46,7 +46,39 @@ function love.load()
   end
 
   objects.mobs = {}
-  table.insert(objects.mobs, mob.new{world=world, act=mob.seek_player})
+
+  for n = 1, 5 do
+     table.insert(objects.mobs,
+                  mob.new{world=world,
+                          act=mob.seek_player,
+                          x = 2500 + n*50,
+                          color = {110, 190, 140}
+                       })
+  end
+
+  for n = 1, 5 do
+     table.insert(objects.mobs,
+                  mob.new{world=world,
+                          act=mob.seek_player,
+                          x = 2500 + n*50,
+                          y = 2550,
+                          min_distance = 300,
+                          max_distance = 330,
+                          color = {110, 140, 190}
+                       })
+  end
+
+  for n = 1, 5 do
+     table.insert(objects.mobs,
+                  mob.new{world=world,
+                          act=mob.seek_player,
+                          x = 2500 + n*50,
+                          y = 2550,
+                          min_distance = 50,
+                          max_distance = 100,
+                          color = {190, 140, 110}
+                       })
+  end
 
   --initial graphics setup
   love.graphics.setBackgroundColor(0,0,0)
