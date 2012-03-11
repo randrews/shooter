@@ -105,7 +105,7 @@ function maneuver_player(body, keys)
    if not keys.move then
       body:setLinearDamping(Constants.deceleration)
    else
-      limit_speed(body, Constants.max_speed)
+      utils.limit_speed(body, Constants.max_speed)
    end
 end
 
@@ -122,14 +122,4 @@ function make_bullet(x,y,xv,yv)
    bullet.shape:setMask(Categories.bullet, Categories.player)
 
    return bullet
-end
-
-function limit_speed(body, max_speed)
-   local x, y = body:getLinearVelocity()
-   if x*x + y*y > max_speed * max_speed then
-      -- TODO: make this just flat set the velocity
-      body:setLinearDamping(Constants.deceleration * 2)
-   else
-      body:setLinearDamping(0)
-   end     
 end

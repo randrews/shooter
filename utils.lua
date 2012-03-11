@@ -61,3 +61,13 @@ function screen_to_world(x,y)
    -- Add vectors. Easy.
    return cursor_d * math.cos(world_a) + player_x, cursor_d * math.sin(world_a) + player_y
 end
+
+function limit_speed(body, max_speed)
+   local x, y = body:getLinearVelocity()
+   if x*x + y*y > max_speed * max_speed then
+      -- TODO: make this just flat set the velocity
+      body:setLinearDamping(Constants.deceleration * 2)
+   else
+      body:setLinearDamping(0)
+   end     
+end

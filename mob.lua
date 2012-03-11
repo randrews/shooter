@@ -10,6 +10,9 @@ local instance = {class = mob,
                   y = Constants.world_h / 2,
                   angle = 0,
                   color = {110, 140, 190},
+                  wake_distance = 1000, -- Wake if the player is this close
+                  max_distance = 225, -- Seeking will try to stay closer than this
+                  min_distance = 175, -- And farther than this
                   act = function(self, player) end
                }
 
@@ -62,19 +65,40 @@ function instance.angle_to_player(self, player)
                          player.body:getX(), player.body:getY())
 end
 
-function seek_player(self, player)
-   if self:distance_to_player(player) <= 500 then
-      local ta = self:angle_to_player(player) - math.pi / 2
-      local a = self.body:getAngle()
-      local ccw = (a - ta) % (math.pi * 2)
-      local cw = (math.pi * 2) - ccw
+function instance.turn_toward_player(self, player)
+   local ta = self:angle_to_player(player) - math.pi / 2
+   local a = self.body:getAngle()
+   local ccw = (a - ta) % (math.pi * 2)
+   local cw = (math.pi * 2) - ccw
+   local thresh = math.pi / 180 -- one degree
 
-      if cw < math.pi / 12 or ccw < math.pi / 36 then
-         self.body:setAngularVelocity(0)
-      elseif cw < ccw then
-         self.body:applyTorque(Constants.turn_speed)
+   if cw < thresh or ccw < thresh then
+      self.body:setAngularVelocity(0)
+   elseif cw < ccw then
+      self.body:applyTorque(Constants.turn_speed)
+   else
+      self.body:applyTorque(-Constants.turn_speed)
+   end
+end
+
+function seek_player(self, player)
+   local dist = self:distance_to_player(player)
+   local accel = Constants.acceleration
+
+   if dist <= self.wake_distance then
+      self:turn_toward_player(player)
+      if dist > self.max_distance then
+         self.body:applyForce(math.cos(self.body:getAngle()) * accel,
+                              math.sin(self.body:getAngle()) * accel)
+
+         utils.limit_speed(self.body, Constants.max_speed)
+      elseif dist < self.min_distance then
+         self.body:applyForce(math.cos(self.body:getAngle()) * -accel,
+                              math.sin(self.body:getAngle()) * -accel)
+
+         utils.limit_speed(self.body, Constants.max_speed)
       else
-         self.body:applyTorque(-Constants.turn_speed)
+         self.body:setLinearDamping(Constants.deceleration)
       end
    end
 end
